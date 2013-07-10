@@ -1,0 +1,23 @@
+{
+  "name": "grunt-shopify-theme",
+  "version": "0.1.0",
+  "description": "grunt-shopify-theme",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ryanburnette/grunt-shopify-theme.git"
+  },
+  "author": "Ryan Burnette",
+  "license": "Apache2",
+  "bugs": {
+    "url": "https://github.com/ryanburnette/grunt-shopify-theme/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-copy": "~0.4.1",
+    "walk": "~2.2.1"
+  }
+}
