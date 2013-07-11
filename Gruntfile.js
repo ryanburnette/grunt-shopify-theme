@@ -8,8 +8,8 @@ module.exports = function(grunt) {
         destination: 'deploy',
         assets: {
           src: ['assets/css/*', 'assets/js/*', 'assets/images/*'],
-          options: { // not implemented yet
-            extension: ['.mov', '.mp3']
+          options: {
+            extensions: ['.mov', '.mp3']
           }
         },
         config: {

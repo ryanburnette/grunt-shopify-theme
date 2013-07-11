@@ -38,7 +38,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
 
     var me = this
-      , assets 
+      , defaultExtensions
+      , assetsExtensions 
+      , additionalExtensions
       , configs 
       , checks = {}
       , destdir = me.data.destination || 'deploy'
@@ -47,7 +49,7 @@ module.exports = function (grunt) {
       , haves = {}
       ;
 
-    assets = [
+    defaultExtensions = [
       '.css'
     , '.js'
     , '.liquid'
@@ -56,6 +58,8 @@ module.exports = function (grunt) {
     , '.gif'
     , '.png'
     ];
+    additionalExtensions = me.data.assets.options.extensions || [];
+    assetsExtensions = [].concat.apply(defaultExtensions, additionalExtensions);
 
     configs = [
       'settings.html'
@@ -63,10 +67,13 @@ module.exports = function (grunt) {
     ];
 
     checks.assets = function (filename) {
-      if (1 < assets.indexOf(path.extname(filename))) {
-        return false;
+      var extension = path.extname(filename).toLowerCase()
+        ;
+      
+      if (-1 !== assetsExtensions.indexOf(extension) ) {
+        return true;
       }
-      return true;
+      return false;
     };
 
     checks.config = function (filename) {
