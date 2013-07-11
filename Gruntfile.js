@@ -1,33 +1,21 @@
-module.exports = function(grunt) {
-  "use strict";
+'use strict';
 
+module.exports = function(grunt) {
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json') 
-  , 'shopify-theme': {
-      project: {
-        destination: 'deploy',
-        assets: {
-          src: ['assets/css/*', 'assets/js/*', 'assets/images/*'],
-          options: {
-            extensions: ['.mov', '.mp3']
-          }
-        },
-        config: {
-          src: ['config/*']
-        },
-        layout: {
-          src: ['layout/*']
-        },
-        snippets: {
-          src: ['snippets/*']
-        },
-        templates: {
-          src: ['templates/*']
-        }
-      }
+    jshint: {
+      all: [
+        'Gruntfile.js',
+        'tasks/*.js'
+      ],
+      options: {
+        jshintrc: '.jshintrc',
+      },
     }
   });
 
-  grunt.loadTasks('grunt-task/');
-  grunt.registerTask('default', ['shopify-theme']);
+  grunt.loadTasks('tasks');
+
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+
+  grunt.registerTask('default', ['jshint']);
 };

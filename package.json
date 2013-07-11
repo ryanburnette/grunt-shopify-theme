@@ -1,23 +1,33 @@
 {
   "name": "grunt-shopify-theme",
+  "author": "Ryan Burnette",
+  "license": "Apache2",
   "version": "0.1.0",
   "description": "grunt-shopify-theme",
-  "main": "",
+  "engines": {
+    "node": ">=0.10"
+  },
+  "main": "Gruntfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:ryanburnette/grunt-shopify-theme.git"
+    "url": "https://github.com/ryanburnette/grunt-shopify-theme.git"
   },
-  "author": "Ryan Burnette",
-  "license": "Apache2",
   "bugs": {
     "url": "https://github.com/ryanburnette/grunt-shopify-theme/issues"
   },
-  "devDependencies": {
+  "peerDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-copy": "~0.4.1",
     "walk": "~2.2.1"
+  },
+  "keywords": [
+    "shopify"
+  ],
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.6.0"
   }
 }
