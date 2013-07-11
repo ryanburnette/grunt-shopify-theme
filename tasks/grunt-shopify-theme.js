@@ -39,8 +39,8 @@ module.exports = function (grunt) {
 
     var me = this
       , defaultExtensions
-      , assetsExtensions 
-      , additionalExtensions
+      , assetsExtensions
+      , additionalExtensions = []
       , configs 
       , checks = {}
       , destdir = me.data.destination || 'deploy'
@@ -48,6 +48,22 @@ module.exports = function (grunt) {
       , pruneTaskConfig
       , haves = {}
       ;
+
+    if ( !me.data.assets ) {
+      me.data.assets = {};
+    }
+    if ( !me.data.config ) {
+      me.data.config = {};
+    }
+    if ( !me.data.layout ) {
+      me.data.layout = {};
+    }
+    if ( !me.data.snippets ) {
+      me.data.snippets = {};
+    }
+    if ( !me.data.templates ) {
+      me.data.templates = {};
+    }
 
     defaultExtensions = [
       '.css'
@@ -58,7 +74,9 @@ module.exports = function (grunt) {
     , '.gif'
     , '.png'
     ];
-    additionalExtensions = me.data.assets.options.extensions || [];
+    if ( me.data.assets.options && me.data.assets.options.extensions ) {
+      additionalExtensions = me.data.assets.options.extensions;
+    }
     assetsExtensions = [].concat.apply(defaultExtensions, additionalExtensions);
 
     configs = [
@@ -135,7 +153,13 @@ module.exports = function (grunt) {
       destname = path.join(destdir, filetype, filename);
 
       // gather haves
-      haves[destname] = true;
+      if ( haves[destname] ) {
+        grunt.log.warn(['You have a file by the same name in multiple source directories.']);
+        grunt.log.warn(haves[destname]);
+        grunt.log.warn(pathname);
+        grunt.fail.warn('Failing to avoid overwrite.');
+      }
+      haves[destname] = pathname;
 
       // compare destdir + filename against current pathname
       try {
@@ -158,7 +182,7 @@ module.exports = function (grunt) {
         files: [
           { expand: true
           , flatten: true
-          , src: me.data.assets.src
+          , src: me.data.assets.src || ['assets/**']
           , dest: destdir + '/assets'
           , filter: checkFile.bind(null, 'assets')
           , onlyIf: 'modified'
@@ -169,7 +193,7 @@ module.exports = function (grunt) {
         files: [
           { expand: true
           , flatten: true
-          , src: me.data.config.src 
+          , src: me.data.config.src || ['config/**']
           , dest: destdir + '/config'
           , filter: checkFile.bind(null, 'config')
           }
@@ -179,7 +203,7 @@ module.exports = function (grunt) {
         files: [
           { expand: true
           , flatten: true
-          , src: me.data.layout.src
+          , src: me.data.layout.src || ['layout/**']
           , dest: destdir + '/layout'
           , filter: checkFile.bind(null, 'layout')
           }
@@ -189,7 +213,7 @@ module.exports = function (grunt) {
         files: [
           { expand: true
           , flatten: true
-          , src: me.data.snippets.src
+          , src: me.data.snippets.src || ['snippets/**']
           , dest: destdir + '/snippets'
           , filter: checkFile.bind(null, 'snippets')
           }
@@ -199,7 +223,7 @@ module.exports = function (grunt) {
         files: [
           { expand: true
           , flatten: true
-          , src: me.data.templates.src 
+          , src: me.data.templates.src || ['templates/**']
           , dest: destdir + '/templates'
           , filter: checkFile.bind(null, 'templates')
           }
@@ -209,7 +233,7 @@ module.exports = function (grunt) {
 
     grunt.config('copy', copyTaskConfig);
     grunt.task.run('copy');
-  
+
     pruneTaskConfig = { all: { base: destdir, haves: haves } };
     grunt.config('prune', pruneTaskConfig);
     grunt.task.run('prune');
