@@ -2,7 +2,7 @@
   "name": "grunt-shopify-theme",
   "author": "Ryan Burnette",
   "license": "Apache2",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "grunt-shopify-theme",
   "engines": {
     "node": ">=0.10"
