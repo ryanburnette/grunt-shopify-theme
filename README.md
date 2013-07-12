@@ -1,48 +1,102 @@
-grunt-shopify-theme
-===================
+# grunt-shopify-theme
 
-This Grunt task provides one simple step for a Shopify theme developer's workflow. It identifies which files in a repository are part of a Shopify theme's deployment subset and copies those into a subdirectory. It is assumed that the subdirectory will be watched by some other task, app or manual process which will facilitate the deployment to Shopify. This allows for extra local-only directories containing precompiled files to be kept separate from the deployment structure.
+> Compile assets from any organizational structure into a valid Shopify theme.
+
+In order to deploy a Shopify theme, the theme assets must be organized into the conventional five directories with certain files contained within each. This structure may not be the most desirable for the theme developer's workflow. This grunt task allows the developer to specify multiple sources for each type of Shopify theme asset so the proper theme is compiled into a deployment subdirectory when the grunt task runs.
+
+Only files which do not exist in their current form in the deployment directory are copied. This helps keep the job light when the deployment directory is being watched by a Shopify theme uploader.
 
 ## Getting Started
-Here's an exmaple configuration for Gruntfile.js. This configuration looks for components of the assets directory in three, organized subdirectories. The precompiled files are organized any way your workflow dictates it should be. Let the Grunt task make them a mess all in one folder together for deployment. The other directories are all shown in their simplest configurations, but remember that the rules for each will be applied. For example, you may render your settings.html file from a Jade template. That Jade template could be right in the directory, but because of the rules it will be ignored. More advanced configurations can be used depending upon the workflow requirements.
+This plugin requires Grunt `~0.4.0`
+
+If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
+
+```shell
+npm install grunt-shopify-theme --save-dev
+```
+
+Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
+
+```js
+grunt.loadNpmTasks('grunt-shopify-theme');
+```
+
+*This plugin was designed to work with Grunt 0.4.x.*
+
+## Configuration
+This example shows the simplest possible Gruntfile.js which might be used to set up the `grunt-shopify-theme` task. No options are specified, so defaults will be used. This assumes that your base directory contains the following folders:
+
+```
+assets/
+config/
+layout/
+snippets/
+templates/
+```
+
+Each of these directories will be checked recursively for files which are allowed in the theme. The theme will be compiled in a subdirectory under the base of `deploy/`.
 
 ```javascript
 module.exports = function(grunt) {
   "use strict";
 
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json') 
-  , 'shopify-theme': {
-      project: {
-        destination: 'deploy',
+    pkg: grunt.file.readJSON('package.json') ,
+    'shopify-theme': {
+      target: {}
+    }
+  });
+
+  grunt.loadNpmTasks('shopify-theme');
+  
+  grunt.registerTask('default', ['shopify-theme']);
+};
+```
+
+This Gruntfile.js example demonstrates all possible options which can be specified for the `grunt-shopify-theme` task.
+
+```javascript
+module.exports = function(grunt) {
+  "use strict";
+
+  grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json') ,
+    'shopify-theme': {
+      target: {
+        destination: 'deploy/theme', // set the path to the deployment directory, by default this is deploy/
         assets: {
-          src: ['assets/css/*', 'assets/js/*', 'assets/images/*'],
+          src: ['assets/css/*', 'assets/images/**', 'assets/js/*', 'assets/fonts/*'], // src assets from as many directories as you like, use blob (**) for recursive searching
           options: {
-            extensions: ['.mov', '.mp3']
+            extensions: ['.mov', '.aiff'] // by default common images, css, js or liquid files are allowed in the assets folder, you can allow additional extensions here
           }
         },
         config: {
-          src: ['config/*']
+          src: ['config/*'] // config only allows settings.html and settings_data.json, if you render your settings.html with Jade or Haml, no worries about the other files
         },
         layout: {
-          src: ['layout/*']
+          src: ['layout/*'] // the remaining three sources only allow liquid files
         },
         snippets: {
           src: ['snippets/*']
         },
         templates: {
-          src: ['templates/*']
+          src: ['layout/**'] // use blog to search subdirectories and your directory structure can be as fancy as you wish
         }
       }
     }
   });
 
-  grunt.loadTasks('grunt-task/');
+  // consider using watch to run this task when source files change
+
+  // pair it with a desktop uploader or another task which can upload your files directly to shopify, just watch the deployment folder for changes
+
+  grunt.loadNpmTasks('shopify-theme');
+  
   grunt.registerTask('default', ['shopify-theme']);
 };
 ```
 
-## How It Works
+## How This Plugin Works
 A Shopify theme is comprised of 5 directories:
 
 ```
@@ -55,30 +109,31 @@ A Shopify theme is comprised of 5 directories:
 
 There are limitations for each of these directories. The task watches the source directory and looks for these subdirectories, applying rules to each which will copy all applicable files, leaving behind anything which is not part of a proper Shopify theme.
 
+A few rules are applied to the source files for each of these directories and the options are there to source from multiple directories for each type of Shopify theme asset. These rules allow sources to deviate from the structure of the deployed Shopify theme. Source: well-organized. Deployment: messy but who cares?
+
 ## Task Rules
 Rules for each Shopify theme subdirectory:
 
-### Assets
+#### Assets
 + Any image file
 + Any .css or .css.liquid file
 + And .js or .js.liquid file
++ Additional extensions can be added using Gruntfile.js
 
-### Config
+#### Config
 + Only settings.html and settings_data.json files
 
-### Layout
+#### Layout
 + Any .liquid file
 
-### Snippets
+#### Snippets
 + Any .liquid file
 
-### Templates
+#### Templates
 + Any .liquid file
-
-These rules allow deviations from a standard Shopify theme. Local-only assets may be stored in subdirectories of the assets folder while only applicable files will be copied to the deployment assets folder in the expected Shopify scheme.
 
 ## Complementary Tasks/apps
-There are several options for handling the deployment of your theme. Any of these options is a great compliment to this task:
+There are several options for handling the deployment of your theme. Any other grunt task or app which can watch a directory and upload changes will be a great compliment to this task.
 
-+ grunt-shopify
-+ Shopify Theme App
+## Future Development
+I plan to add the capability of deploying changes directly to Shopify at some point in the future. For now, there are many other options for watching and deploying.
