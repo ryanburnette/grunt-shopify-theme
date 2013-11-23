@@ -114,7 +114,7 @@ module.exports = function (grunt) {
     checks.layout = checkLiq;
     checks.snippets = checkLiq;
     checks.templates = checkLiq;
-    checks.templatesCustomers = checkLiq;
+    checks['templates/customers'] = checkLiq;
 
     function createHashSync(pathname) {
       var hash = crypto.createHash('md5')
@@ -239,7 +239,7 @@ module.exports = function (grunt) {
           , flatten: true
           , src: me.data.templatesCustomers.src || ['templates-customers/**']
           , dest: destdir + '/templates/customers'
-          , filter: checkFile.bind(null, 'templatesCustomers')
+          , filter: checkFile.bind(null, 'templates/customers')
           }
         ]
       }
