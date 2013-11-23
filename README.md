@@ -83,7 +83,7 @@ module.exports = function(grunt) {
         templates: {
           src: ['templates/**'] // use blog to search subdirectories and your directory structure can be as fancy as you wish
         },
-        'templates-customers': {
+        templatesCustomers: {
           src: ['templates-customers/**']
         }
       }
@@ -146,3 +146,15 @@ There are several options for handling the deployment of your theme. Any other g
 
 ## Future Development
 I plan to add the capability of deploying changes directly to Shopify at some point in the future. For now, there are many other options for watching and deploying.
+
+## Version History
+
++ 0.1.2 2013-11-23
+  + Added support for templates/customers directory
+  + Updated documentation
+
++ 0.1.1
+  + Bug fixes
+
++ 0.1.0
+  + Initial
