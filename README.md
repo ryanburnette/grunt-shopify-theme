@@ -32,6 +32,7 @@ config/
 layout/
 snippets/
 templates/
+templates-customers/
 ```
 
 Each of these directories will be checked recursively for files which are allowed in the theme. The theme will be compiled in a subdirectory under the base of `deploy/`.
@@ -47,7 +48,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.loadNpmTasks('shopify-theme');
+  grunt.loadNpmTasks('grunt-shopify-theme');
   
   grunt.registerTask('default', ['shopify-theme']);
 };
@@ -71,7 +72,7 @@ module.exports = function(grunt) {
           }
         },
         config: {
-          src: ['config/*'] // config only allows settings.html and settings_data.json, if you render your settings.html with Jade or Haml, no worries about the other files
+          src: ['config/*', '!config/settings_data.json'] // config only allows settings.html and settings_data.json, if you render your settings.html with Jade or Haml, no worries about the other files ... this example also demonstrates the method that should be used for ignoring a file which may be present in the precompiled theme, remember that this file will be pruned if it is present in the destination folder
         },
         layout: {
           src: ['layout/*'] // the remaining three sources only allow liquid files
@@ -80,7 +81,10 @@ module.exports = function(grunt) {
           src: ['snippets/*']
         },
         templates: {
-          src: ['layout/**'] // use blog to search subdirectories and your directory structure can be as fancy as you wish
+          src: ['templates/**'] // use blog to search subdirectories and your directory structure can be as fancy as you wish
+        },
+        'templates-customers': {
+          src: ['templates-customers/**']
         }
       }
     }
@@ -90,14 +94,14 @@ module.exports = function(grunt) {
 
   // pair it with a desktop uploader or another task which can upload your files directly to shopify, just watch the deployment folder for changes
 
-  grunt.loadNpmTasks('shopify-theme');
+  grunt.loadNpmTasks('grunt-shopify-theme');
   
   grunt.registerTask('default', ['shopify-theme']);
 };
 ```
 
 ## How This Plugin Works
-A Shopify theme is comprised of 5 directories:
+A Shopify theme is comprised of 5, or optionally 6, directories:
 
 ```
 /assets
@@ -105,6 +109,7 @@ A Shopify theme is comprised of 5 directories:
 /layout
 /snippets
 /templates
+/templates/customers (optional)
 ```
 
 There are limitations for each of these directories. The task watches the source directory and looks for these subdirectories, applying rules to each which will copy all applicable files, leaving behind anything which is not part of a proper Shopify theme.
@@ -131,6 +136,10 @@ Rules for each Shopify theme subdirectory:
 
 #### Templates
 + Any .liquid file
++ Remember to locate your customers folder files outside this folder or they will not be compiled into the correct location
+
+#### Templates/Customers
++ Any liquid file
 
 ## Complementary Tasks/apps
 There are several options for handling the deployment of your theme. Any other grunt task or app which can watch a directory and upload changes will be a great compliment to this task.

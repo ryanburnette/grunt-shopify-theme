@@ -64,6 +64,9 @@ module.exports = function (grunt) {
     if ( !me.data.templates ) {
       me.data.templates = {};
     }
+    if ( !me.data.templatesCustomers ) {
+      me.data.templatesCustomers = {};
+    }
 
     defaultExtensions = [
       '.css'
@@ -111,6 +114,7 @@ module.exports = function (grunt) {
     checks.layout = checkLiq;
     checks.snippets = checkLiq;
     checks.templates = checkLiq;
+    checks.templatesCustomers = checkLiq;
 
     function createHashSync(pathname) {
       var hash = crypto.createHash('md5')
@@ -228,12 +232,23 @@ module.exports = function (grunt) {
           , filter: checkFile.bind(null, 'templates')
           }
         ]
+      },
+      templatesCustomers: {
+        files: [
+          { expand: true
+          , flatten: true
+          , src: me.data.templatesCustomers.src || ['templates-customers/**']
+          , dest: destdir + '/templates/customers'
+          , filter: checkFile.bind(null, 'templatesCustomers')
+          }
+        ]
       }
     };
 
     grunt.config('copy', copyTaskConfig);
     grunt.task.run('copy');
 
+    console.log('prune', destdir, haves);
     pruneTaskConfig = { all: { base: destdir, haves: haves } };
     grunt.config('prune', pruneTaskConfig);
     grunt.task.run('prune');
