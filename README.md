@@ -1,6 +1,6 @@
 # grunt-shopify-theme
 
-![npm](https://nodei.co/npm/grunt-shopify-theme.png?downloads=true&stars=true)
+[![npm](https://nodei.co/npm/grunt-shopify-theme.png?downloads=true&stars=true)](https://npmjs.org/package/grunt-shopify-theme)
 
 > Compile assets from any organizational structure into a valid Shopify theme.
 
