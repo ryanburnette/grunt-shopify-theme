@@ -79,9 +79,9 @@ module.exports = function(grunt) {
         config: {
           // config only allows settings.html and settings_data.json, if you render
           // your settings.html with Jade or Haml, no worries about the other files ...
-          // this example also demonstrates the method that should be used for ignoring
-          // a file which may be present in the precompiled theme, remember that this file
-          // will be pruned if it is present in the destination folder
+          // this example also demonstrates the method that should be used for
+          // ignoring a file which may be present in the precompiled theme, remember
+          // that this file will be pruned if it is present in the destination folder
           src: ['config/*', '!config/settings_data.json']
         },
         layout: {
