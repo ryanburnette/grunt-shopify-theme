@@ -110,8 +110,8 @@ module.exports = function(grunt) {
 
   // consider using watch to run this task when source files change
 
-  // pair it with a desktop uploader or another task which can upload your files directly
-  // to shopify, just watch the deployment folder for changes
+  // pair it with a desktop uploader or another task which can upload your files
+  // directly to shopify, just watch the deployment folder for changes
 
   grunt.loadNpmTasks('grunt-shopify-theme');
   
