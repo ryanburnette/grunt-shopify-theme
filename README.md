@@ -4,12 +4,12 @@
 
 > Compile assets from any organizational structure into a valid Shopify theme.
 
-In order to deploy a Shopify theme, the theme assets must be organized into the conventional five directories with certain files contained within each. This structure may not be the most desirable for the theme developer's workflow. This grunt task allows the developer to specify multiple sources for each type of Shopify theme asset so the proper theme is compiled into a deployment subdirectory when the grunt task runs.
+In order to deploy a Shopify theme, the theme assets must be organized into Shopify's conventional directorie structure. This structure may not be the most desirable for the theme developer's workflow. This grunt task allows Shopify theme developers to organize their sources files how ever they choose. The task organizes the theme into the required deployment structure.
 
-Only files which do not exist in their current form in the deployment directory are copied. This helps keep the job light when the deployment directory is being watched by a Shopify theme uploader.
+When the task runs, only the files which have changed are copied. This keeps the task light when working with large themes.
 
 ## Getting Started
-This plugin requires Grunt `~0.4.0`
+This plugin requires Grunt `0.4.0` or newer
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -22,8 +22,6 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 ```js
 grunt.loadNpmTasks('grunt-shopify-theme');
 ```
-
-*This plugin was designed to work with Grunt 0.4.x.*
 
 ## Configuration
 This example shows the simplest possible Gruntfile.js which might be used to set up the `grunt-shopify-theme` task. No options are specified, so defaults will be used. This assumes that your base directory contains the following folders:
@@ -66,28 +64,43 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json') ,
     'shopify-theme': {
       target: {
-        destination: 'deploy/theme', // set the path to the deployment directory, by default this is deploy/
+        // set the path to the deployment directory, by default this is deploy/
+        destination: 'deploy/theme',
         assets: {
-          src: ['assets/css/*', 'assets/images/**', 'assets/js/*', 'assets/fonts/*'], // src assets from as many directories as you like, use blob (**) for recursive searching
+          // src assets from as many directories as you like, use blob (**) for recursive searching
+          src: ['assets/css/*', 'assets/images/**', 'assets/js/*', 'assets/fonts/*'],
           options: {
-            extensions: ['.mov', '.aiff'] // by default common images, css, js or liquid files are allowed in the assets folder, you can allow additional extensions here
+            // by default common images, css, js or liquid files are allowed in the assets folder,
+            // you can allow additional extensions here
+            extensions: ['.mov', '.aiff']
           }
         },
         config: {
-          src: ['config/*', '!config/settings_data.json'] // config only allows settings.html and settings_data.json, if you render your settings.html with Jade or Haml, no worries about the other files ... this example also demonstrates the method that should be used for ignoring a file which may be present in the precompiled theme, remember that this file will be pruned if it is present in the destination folder
+          // config only allows settings.html and settings_data.json, if you render your settings.html
+          // with Jade or Haml, no worries about the other files ... this example also demonstrates
+          // the method that should be used for ignoring a file which may be present in the precompiled
+          // theme, remember that this file will be pruned if it is present in the destination folder
+          src: ['config/*', '!config/settings_data.json']
         },
         layout: {
-          src: ['layout/*'] // the remaining three sources only allow liquid files
+          // the remaining three sources only allow liquid files
+          src: ['layout/*']
         },
         snippets: {
           src: ['snippets/*']
         },
         templates: {
-          src: ['templates/**'] // use blog to search subdirectories and your directory structure can be as fancy as you wish
+          // use blog to search subdirectories and your directory structure can be as fancy as you wish
+          src: ['templates/**']
         },
         templatesCustomers: {
           src: ['templates-customers/**']
-        }
+        },
+        dontPrune: [
+          // use dontPrune to specify an array of filenames that should not be pruned, you can't
+          // use * or ** here
+          'settings_data.json'
+        ]
       }
     }
   });
@@ -103,7 +116,7 @@ module.exports = function(grunt) {
 ```
 
 ## How This Plugin Works
-A Shopify theme is comprised of 5, or optionally 6, directories:
+A Shopify theme is comprised of several directories:
 
 ```
 /assets
@@ -150,6 +163,9 @@ There are several options for handling the deployment of your theme. Any other g
 I plan to add the capability of deploying changes directly to Shopify at some point in the future. For now, there are many other options for watching and deploying.
 
 ## Version History
+
++ 0.1.3 2014-01-30
+  + Added dontPrune option to avoiding overwrites of files in destination directory
 
 + 0.1.2 2013-11-23
   + Added support for templates/customers directory

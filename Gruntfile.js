@@ -29,7 +29,10 @@ module.exports = function(grunt) {
         },
         templates: {
           src: ['test/src/templates/*']
-        }
+        },
+        dontPrune: [
+          'settings_data.json'
+        ]
       }
     }
   });

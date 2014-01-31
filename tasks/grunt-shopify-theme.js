@@ -15,6 +15,10 @@ module.exports = function (grunt) {
       , ignores = me.data.ignores
       ;
 
+    if ( !ignores ) {
+      ignores = [];
+    }
+
     walker = walk.walk(me.data.base);
 
     walker.on('file', function (root, fileStats, next) {
@@ -22,8 +26,7 @@ module.exports = function (grunt) {
         ;
       
       destname = path.join(root, fileStats.name);
-      if ( !haves[destname] && !ignores[destname]  ) {
-        //console.log(destname, ignores[destname]);
+      if ( !haves[destname] && ignores.indexOf(fileStats.name) === -1 ) {
         fs.unlinkSync(destname); 
         grunt.log.writeln('Deleted: ' + destname);
       }
@@ -49,7 +52,7 @@ module.exports = function (grunt) {
       , copyTaskConfig
       , pruneTaskConfig
       , haves = {}
-      , ignores = []
+      , ignores = me.data.dontPrune
       , taskOptions
       ;
 
@@ -71,40 +74,6 @@ module.exports = function (grunt) {
     if ( !me.data.templatesCustomers ) {
       me.data.templatesCustomers = {};
     }
-
-    taskOptions = {
-      assets: me.data.assets
-    , config: me.data.config
-    , layout: me.data.layout
-    , snippets: me.data.snippets
-    , templates: me.data.templates
-    , templatesCustomers: me.data.templatesCustomers
-    };
-
-    // gather ignores
-    Object.keys(taskOptions).forEach(function (k) {
-      var allSources = taskOptions[k]['src']
-        , selector
-        ;
-
-      if ( allSources ) {
-        allSources.forEach(function (d) {
-          if ( d.charAt(0) === "!" ) {
-            selector = d.substring(1);
-
-            if ( selector.indexOf('*') !== -1 ) {
-
-            }
-            else {
-              ignores.push(selector);
-            }
-          }
-        });
-      }
-    });
-    console.log(ignores);
-
-    // convert ignores from sources to destinations
 
     defaultExtensions = [
       '.css'

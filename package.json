@@ -1,15 +1,15 @@
 {
   "name": "grunt-shopify-theme",
   "author": "Ryan Burnette",
-  "license": "Apache2",
-  "version": "0.1.2",
+  "license": "GPLv2",
+  "version": "0.1.3",
   "description": "grunt-shopify-theme",
   "engines": {
     "node": ">=0.10"
   },
   "main": "Gruntfile.js",
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt"
   },
   "repository": {
     "type": "git",
