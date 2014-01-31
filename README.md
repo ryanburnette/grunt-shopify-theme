@@ -67,19 +67,21 @@ module.exports = function(grunt) {
         // set the path to the deployment directory, by default this is deploy/
         destination: 'deploy/theme',
         assets: {
-          // src assets from as many directories as you like, use blob (**) for recursive searching
+          // src assets from as many directories as you like, use blob (**) for
+          // recursive searching
           src: ['assets/css/*', 'assets/images/**', 'assets/js/*', 'assets/fonts/*'],
           options: {
-            // by default common images, css, js or liquid files are allowed in the assets folder,
-            // you can allow additional extensions here
+            // by default common images, css, js or liquid files are allowed in the
+            // assets folder, you can allow additional extensions here
             extensions: ['.mov', '.aiff']
           }
         },
         config: {
-          // config only allows settings.html and settings_data.json, if you render your settings.html
-          // with Jade or Haml, no worries about the other files ... this example also demonstrates
-          // the method that should be used for ignoring a file which may be present in the precompiled
-          // theme, remember that this file will be pruned if it is present in the destination folder
+          // config only allows settings.html and settings_data.json, if you render
+          // your settings.html with Jade or Haml, no worries about the other files ...
+          // this example also demonstrates the method that should be used for ignoring
+          // a file which may be present in the precompiled theme, remember that this file
+          // will be pruned if it is present in the destination folder
           src: ['config/*', '!config/settings_data.json']
         },
         layout: {
@@ -90,15 +92,16 @@ module.exports = function(grunt) {
           src: ['snippets/*']
         },
         templates: {
-          // use blog to search subdirectories and your directory structure can be as fancy as you wish
+          // use blog to search subdirectories and your directory structure can be as
+          // fancy as you wish
           src: ['templates/**']
         },
         templatesCustomers: {
           src: ['templates-customers/**']
         },
         dontPrune: [
-          // use dontPrune to specify an array of filenames that should not be pruned, you can't
-          // use * or ** here
+          // use dontPrune to specify an array of filenames that should not be pruned,
+          // you can't use * or ** here
           'settings_data.json'
         ]
       }
@@ -107,7 +110,8 @@ module.exports = function(grunt) {
 
   // consider using watch to run this task when source files change
 
-  // pair it with a desktop uploader or another task which can upload your files directly to shopify, just watch the deployment folder for changes
+  // pair it with a desktop uploader or another task which can upload your files directly
+  // to shopify, just watch the deployment folder for changes
 
   grunt.loadNpmTasks('grunt-shopify-theme');
   
