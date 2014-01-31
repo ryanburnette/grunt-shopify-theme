@@ -10,11 +10,32 @@ module.exports = function(grunt) {
       options: {
         jshintrc: '.jshintrc',
       },
+    },
+
+    'shopify-theme': {
+      dist: {
+        destination: 'test/theme',
+        assets: {
+          src: ['test/src/assets/**']
+        },
+        config: {
+          src: ['test/src/config/*', '!test/src/config/settings_data.json']
+        },
+        layout: {
+          src: ['test/src/layout/*']
+        },
+        snippets: {
+          src: ['test/src/snippets/*']
+        },
+        templates: {
+          src: ['test/src/templates/*']
+        }
+      }
     }
   });
 
   grunt.loadTasks('tasks');
-
+  
   grunt.loadNpmTasks('grunt-contrib-jshint');
 
   grunt.registerTask('default', ['jshint']);

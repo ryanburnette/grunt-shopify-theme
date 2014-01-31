@@ -12,6 +12,7 @@ module.exports = function (grunt) {
       , done = me.async()
       , walker
       , haves = me.data.haves
+      , ignores = me.data.ignores
       ;
 
     walker = walk.walk(me.data.base);
@@ -21,7 +22,8 @@ module.exports = function (grunt) {
         ;
       
       destname = path.join(root, fileStats.name);
-      if ( !haves[destname]  ) {
+      if ( !haves[destname] && !ignores[destname]  ) {
+        //console.log(destname, ignores[destname]);
         fs.unlinkSync(destname); 
         grunt.log.writeln('Deleted: ' + destname);
       }
@@ -47,6 +49,8 @@ module.exports = function (grunt) {
       , copyTaskConfig
       , pruneTaskConfig
       , haves = {}
+      , ignores = []
+      , taskOptions
       ;
 
     if ( !me.data.assets ) {
@@ -67,6 +71,40 @@ module.exports = function (grunt) {
     if ( !me.data.templatesCustomers ) {
       me.data.templatesCustomers = {};
     }
+
+    taskOptions = {
+      assets: me.data.assets
+    , config: me.data.config
+    , layout: me.data.layout
+    , snippets: me.data.snippets
+    , templates: me.data.templates
+    , templatesCustomers: me.data.templatesCustomers
+    };
+
+    // gather ignores
+    Object.keys(taskOptions).forEach(function (k) {
+      var allSources = taskOptions[k]['src']
+        , selector
+        ;
+
+      if ( allSources ) {
+        allSources.forEach(function (d) {
+          if ( d.charAt(0) === "!" ) {
+            selector = d.substring(1);
+
+            if ( selector.indexOf('*') !== -1 ) {
+
+            }
+            else {
+              ignores.push(selector);
+            }
+          }
+        });
+      }
+    });
+    console.log(ignores);
+
+    // convert ignores from sources to destinations
 
     defaultExtensions = [
       '.css'
@@ -161,7 +199,7 @@ module.exports = function (grunt) {
         grunt.log.warn(['You have a file by the same name in multiple source directories.']);
         grunt.log.warn(haves[destname]);
         grunt.log.warn(pathname);
-        grunt.fail.warn('Failing to avoid overwrite.');
+        grunt.fail.warn('File conflict detected. An overwrite will occur.');
       }
       haves[destname] = pathname;
 
@@ -248,8 +286,7 @@ module.exports = function (grunt) {
     grunt.config('copy', copyTaskConfig);
     grunt.task.run('copy');
 
-    console.log('prune', destdir, haves);
-    pruneTaskConfig = { all: { base: destdir, haves: haves } };
+    pruneTaskConfig = { all: { base: destdir, haves: haves, ignores: ignores } };
     grunt.config('prune', pruneTaskConfig);
     grunt.task.run('prune');
   });
