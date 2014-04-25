@@ -4,7 +4,7 @@
 
 > Compile assets from a custom directory structure into a valid Shopify theme.
 
-In order to deploy a Shopify theme, the theme assets must be organized into Shopify's conventional directorie structure. This structure may not be the most desirable for the theme developer's workflow. This grunt task allows Shopify theme developers to organize their sources files how ever they choose. The task organizes the theme into the required deployment structure.
+In order to deploy a Shopify theme, the theme assets must be organized into Shopify's conventional directory structure. This may be constricting to a developer's workflow. This grunt task allows Shopify theme developers to organize their sources files how ever they choose, compiling the theme for deployment while keeping source assets organized as desired.
 
 When the task runs, only the files which have changed are copied. This keeps the task light when working with large themes.
 
