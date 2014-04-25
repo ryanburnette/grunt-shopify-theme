@@ -169,7 +169,7 @@ I plan to add the capability of deploying changes directly to Shopify at some po
 ## Version History
 
 + 0.1.3 2014-01-30
-  + Added dontPrune option to avoiding overwrites of files in destination directory
+  + Added dontPrune option to avoid overwriting files in destination directory
 
 + 0.1.2 2013-11-23
   + Added support for templates/customers directory
