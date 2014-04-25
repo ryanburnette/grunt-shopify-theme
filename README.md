@@ -2,7 +2,7 @@
 
 [![npm](https://nodei.co/npm/grunt-shopify-theme.png?downloads=true&stars=true)](https://npmjs.org/package/grunt-shopify-theme)
 
-> Compile assets from any organizational structure into a valid Shopify theme.
+> Compile assets from a custom directory structure into a valid Shopify theme.
 
 In order to deploy a Shopify theme, the theme assets must be organized into Shopify's conventional directorie structure. This structure may not be the most desirable for the theme developer's workflow. This grunt task allows Shopify theme developers to organize their sources files how ever they choose. The task organizes the theme into the required deployment structure.
 
