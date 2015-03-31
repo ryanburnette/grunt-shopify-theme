@@ -168,6 +168,9 @@ I plan to add the capability of deploying changes directly to Shopify at some po
 
 ## Version History
 
++ 0.1.4 2015-03-31
+  + Add settings_schema.json to allowable files
+
 + 0.1.3 2014-01-30
   + Added dontPrune option to avoid overwriting files in destination directory
 
