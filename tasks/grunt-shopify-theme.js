@@ -92,6 +92,7 @@ module.exports = function (grunt) {
     configs = [
       'settings.html'
     , 'settings_data.json'
+    , 'settings_schema.json'
     ];
 
     checks.assets = function (filename) {
