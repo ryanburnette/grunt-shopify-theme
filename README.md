@@ -1,6 +1,6 @@
 # grunt-shopify-theme
 
-> I have archived this and removed it from npm. I don't think anyone is using it. If anyone wants to get into developing it for the future. Hit the Gitter. https://gitter.im/grunt-shopify-theme/Lobby
+> I have archived this project on Github and deprecated it on NPM. I don't think anyone is using it anymore, but if anyone is and wants to get involved with developing it for the future ... hit the Gitter. https://gitter.im/grunt-shopify-theme/Lobby
 
 Compile assets from a custom directory structure into a valid Shopify theme.
 
